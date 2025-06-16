@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video de Fondo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilo para el mensaje de toque */
+    #touch-message {
+      position: fixed;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 1.2em;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 5px black;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <!-- VIDEO COMO FONDO -->
+  <video autoplay muted loop id="video-fondo">
+    <source src="Vluna.mp4" type="video/mp4" />
+  </video>
+
+  <!-- CONTENIDO ENCIMA DEL VIDEO -->
+  <div class="contenido">
+    <h1>Eres mi luz en la oscuridad ✨</h1>
+    <p>En cada noche tranquila, pienso en ti... como la luna 🌕 piensa en el mar 🌊.</p>
+  </div>
+
+  <!-- Mensaje para invitar a tocar la pantalla -->
+  <div id="touch-message">Toca la pantalla para reproducir la música 🎶</div>
+
+  <!-- Música de fondo SIN autoplay -->
+  <audio id="bg-music" loop>
+    <source src="bg-music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Botón para controlar la música -->
+  <button
+    class="music-btn"
+    id="toggleMusic"
+    aria-label="Botón para pausar o reproducir música"
+  >
+    ▶ Reproducir música
+  </button>
+
+  <!-- Botón adicional para iniciar la música manualmente -->
+  <button onclick="document.getElementById('bg-music').play()">🔊 Reproducir Audio</button>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("toggleMusic");
+    const touchMsg = document.getElementById("touch-message");
+
+    // Control del botón de música
+    btn.addEventListener("click", () => {
+      if (music.paused) {
+        music.play();
+        btn.textContent = "⏸ Pausar música";
+      } else {
+        music.pause();
+        btn.textContent = "▶ Reproducir música";
+      }
+    });
+
+    // Primer toque para permitir reproducir música (en móviles y navegadores que bloquean autoplay)
+    document.body.addEventListener(
+      "click",
+      () => {
+        music.play().catch(() => {});
+        if (touchMsg) touchMsg.style.display = "none";
+        btn.textContent = "⏸ Pausar música";
+      },
+      { once: true }
+    );
+  </script>
+</body>
+</html>
